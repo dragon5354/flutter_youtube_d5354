@@ -19,17 +19,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: "Youtube Clone App",
-      theme: ThemeData(
-        primaryColor: Colors.white,
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+      // theme: ThemeData(
+      //   primaryColor: Colors.white,
+      //   primarySwatch: Colors.blue,
+      //   visualDensity: VisualDensity.adaptivePlatformDensity,
+      // ),
+      // primaryColor로는 이제 테마색상이 안바뀜
+      theme: ThemeData().copyWith(
+        colorScheme: ThemeData().colorScheme.copyWith(
+          primary: Colors.white,
+          secondary: Colors.grey
+        )
       ),
       initialRoute: "/", // 시작 경로 설정
       initialBinding: InitBinding(),
-      getPages: [
-        GetPage(name: "/", page: ()=>App())
-      ],
-
+      getPages: [GetPage(name: "/", page: () => App())],
     );
   }
 }
