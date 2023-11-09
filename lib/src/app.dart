@@ -1,7 +1,11 @@
 // 시작시 최초로 보여주는 페이지
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_youtube_d5354/controller/app_controller.dart';
+import 'package:flutter_youtube_d5354/src/controller/app_controller.dart';
+import 'package:flutter_youtube_d5354/src/pages/explore.dart';
+import 'package:flutter_youtube_d5354/src/pages/home.dart';
+import 'package:flutter_youtube_d5354/src/pages/library.dart';
+import 'package:flutter_youtube_d5354/src/pages/subscribe.dart';
 import 'package:get/get.dart';
 
 // 컨트롤러에 바로 접근 가능하게
@@ -11,7 +15,22 @@ class App extends GetView<AppController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
+        body: Obx(() {
+          switch(RouteName.values[controller.currentIndex.value]){
+            case RouteName.Home:
+              return Home();
+            case RouteName.Explore:
+              return Explore();             
+            case RouteName.Subs:
+              return Subscribe();
+            case RouteName.Library:
+              return Library();
+            case RouteName.Add:
+              // bottomsheet 사용예정  
+            default:
+              return Container();
+          }
+        }),
         // 반응형 상태관리 적용할 부분을 obx로 표시
         bottomNavigationBar: Obx(
           () => BottomNavigationBar(

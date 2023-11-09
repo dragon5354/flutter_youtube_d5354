@@ -1,4 +1,4 @@
-import 'package:flutter_youtube_d5354/controller/app_controller.dart';
+import 'package:flutter_youtube_d5354/src/controller/app_controller.dart';
 import 'package:get/get.dart';
 
 // 바인딩
