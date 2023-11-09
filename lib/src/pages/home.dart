@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_youtube_d5354/src/components/custom_appbar.dart';
+import 'package:flutter_youtube_d5354/src/components/video_widget.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -16,12 +19,12 @@ class Home extends StatelessWidget {
           snap: true,
         ),
         SliverList(delegate: SliverChildBuilderDelegate((context, index) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 150,
-              color: Colors.grey,
-            ),
+          return GestureDetector(
+            onTap: () {
+              // page route
+              Get.toNamed("/detail/123456");
+            },
+            child: VideoWidget(),
           );
         }))
       ],

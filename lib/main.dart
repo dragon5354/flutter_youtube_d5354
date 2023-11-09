@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_youtube_d5354/src/binding/init_binding.dart';
 import 'package:flutter_youtube_d5354/src/app.dart';
+import 'package:flutter_youtube_d5354/src/components/youtube_detail.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -26,14 +27,15 @@ class MyApp extends StatelessWidget {
       // ),
       // primaryColor로는 이제 테마색상이 안바뀜
       theme: ThemeData().copyWith(
-        colorScheme: ThemeData().colorScheme.copyWith(
-          primary: Colors.white,
-          secondary: Colors.grey
-        )
-      ),
+          colorScheme: ThemeData()
+              .colorScheme
+              .copyWith(primary: Colors.white, secondary: Colors.grey)),
       initialRoute: "/", // 시작 경로 설정
       initialBinding: InitBinding(),
-      getPages: [GetPage(name: "/", page: () => App())],
+      getPages: [
+        GetPage(name: "/", page: () => App()),
+        GetPage(name: "/detail/:videoId", page: () => YoutubeDetail()),
+      ],
     );
   }
 }
