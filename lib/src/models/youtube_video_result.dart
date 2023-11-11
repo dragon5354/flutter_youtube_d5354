@@ -1,5 +1,3 @@
-
-
 import 'package:flutter_youtube_d5354/src/models/video.dart';
 
 class YoutubeVideoResult {
