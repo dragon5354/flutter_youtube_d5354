@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_youtube_d5354/src/controller/video_controller.dart';
@@ -14,23 +15,31 @@ class VideoWidget extends StatefulWidget {
 }
 
 class _VideoWidgetState extends State<VideoWidget> {
-
   late VideoController _videoController;
 
   @override
   void initState() {
-    _videoController = Get.put(VideoController(video: widget.video),tag: widget.video.id.videoId);
+    _videoController = Get.put(VideoController(video: widget.video),
+        tag: widget.video.id.videoId);
     super.initState();
   }
 
   Widget _thumbnail() {
-    return Container(
-      height: 250,
-      color: Colors.grey.withOpacity(0.5),
-      child: Image.network(
-        widget.video.snippet.thumbnails!.medium.url,
-        fit: BoxFit.fitWidth,
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          color: Colors.grey.withOpacity(0.5),
+          child: CachedNetworkImage(
+            imageUrl: widget.video.snippet.thumbnails!.medium.url,
+            placeholder: (context, url) => Container(
+              height: 230,
+              child: Center(child: CircularProgressIndicator()),
+            ),
+            fit: BoxFit.fitWidth,
+          ),
+        ),
+      ],
     );
   }
 
@@ -39,13 +48,14 @@ class _VideoWidgetState extends State<VideoWidget> {
       padding: EdgeInsets.only(left: 10, bottom: 20),
       child: Row(
         children: [
-          Obx(() =>  CircleAvatar(
-            radius: 30,
-            backgroundColor: Colors.grey.withOpacity(0.5),
-            backgroundImage: Image.network(
-                   _videoController.youtuberThumbnailUrl)
-                .image,
-          ),),
+          Obx(
+            () => CircleAvatar(
+              radius: 30,
+              backgroundColor: Colors.grey.withOpacity(0.5),
+              backgroundImage:
+                  Image.network(_videoController.youtuberThumbnailUrl).image,
+            ),
+          ),
           SizedBox(
             width: 15,
           ),
@@ -75,14 +85,17 @@ class _VideoWidgetState extends State<VideoWidget> {
                           fontSize: 12, color: Colors.black.withOpacity(0.8)),
                     ),
                     Text(" . "),
-                    Obx(()=> Text(
-                      _videoController.viewCountString,
-                      style: TextStyle(
-                          fontSize: 12, color: Colors.black.withOpacity(0.8)),
-                    ),),
+                    Obx(
+                      () => Text(
+                        _videoController.viewCountString,
+                        style: TextStyle(
+                            fontSize: 12, color: Colors.black.withOpacity(0.8)),
+                      ),
+                    ),
                     Text(" . "),
                     Text(
-                      DateFormat("yyyy-MM-dd").format(widget.video.snippet.publishTime!),
+                      DateFormat("yyyy-MM-dd")
+                          .format(widget.video.snippet.publishTime!),
                       style: TextStyle(
                           fontSize: 12, color: Colors.black.withOpacity(0.8)),
                     )

@@ -18,9 +18,9 @@ class YoutubeRepository extends GetConnect {
   */
 
   // 썸네일, 이름 , 유튜버이름, 날짜 받아오기
-  Future<YoutubeVideoResult?> loadVideos() async {
+  Future<YoutubeVideoResult?> loadVideos(String nextPageToken) async {
     String url =
-        "/youtube/v3/search?part=snippet&channelId=UCOs1RIIgdvnRYYVuMe5422A&maxResults=10&order=date&type=video&videoDefinition=high&key=AIzaSyD7wFxSNGfc5ALIvNXz-_m_xxt4URB_nMk";
+        "/youtube/v3/search?part=snippet&channelId=UCOs1RIIgdvnRYYVuMe5422A&maxResults=10&order=date&type=video&videoDefinition=high&key=AIzaSyD7wFxSNGfc5ALIvNXz-_m_xxt4URB_nMk&pageToken=$nextPageToken";
     final response = await get(url);
     if (response.status.hasError) {
       return Future.error(response.statusText as Object);
