@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_youtube_d5354/src/controller/youtube_detail_controller.dart';
 import 'package:get/get.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class YoutubeDetail extends StatelessWidget {
+class YoutubeDetail extends GetView<YoutubeDetailController> {
   const YoutubeDetail({super.key});
 
   Widget _titleZone() {
@@ -13,27 +15,21 @@ class YoutubeDetail extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            "유튜브 영상 다시보기",
+            controller.title,
             style: TextStyle(fontSize: 15),
           ),
           Row(
             children: [
               Text(
-                "동영상올린사람",
+                controller.viewCount,
                 style: TextStyle(
-                    fontSize: 12, color: Colors.black.withOpacity(0.8)),
+                    fontSize: 12, color: Colors.black.withOpacity(0.5)),
               ),
               Text(" . "),
               Text(
-                "조회수 1000회",
+                controller.publishedTime,
                 style: TextStyle(
-                    fontSize: 12, color: Colors.black.withOpacity(0.8)),
-              ),
-              Text(" . "),
-              Text(
-                "2023-11-09",
-                style: TextStyle(
-                    fontSize: 12, color: Colors.black.withOpacity(0.8)),
+                    fontSize: 12, color: Colors.black.withOpacity(0.5)),
               )
             ],
           ),
@@ -55,8 +51,9 @@ class YoutubeDetail extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        _buttonOne("like", "1000"),
-        _buttonOne("dislike", "0"),
+        _buttonOne("like", controller.likeCount),
+        // 현재 유튜브의 경우 , 싫어요(disLike) 카운트 기능을 제공하지 않기 때문에 공백 처리함. 21.11.10일자로 유튜브 정책에서 변경된 사항.
+        _buttonOne("dislike", ""),
         _buttonOne("share", "공유"),
         _buttonOne("save", "저장"),
       ],
@@ -67,7 +64,7 @@ class YoutubeDetail extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
       child: Text(
-        "안녕하세요 반갑습니다",
+        controller.description,
         style: TextStyle(fontSize: 14),
       ),
     );
@@ -87,20 +84,22 @@ class YoutubeDetail extends StatelessWidget {
             radius: 30,
             backgroundColor: Colors.grey.withOpacity(0.5),
             backgroundImage: Image.network(
-                    "https://icon-library.com/images/guest-icon-png/guest-icon-png-6.jpg")
+                    controller.youtuberThumbnailUrl)
                 .image,
           ),
-          SizedBox(width: 15,),
+          SizedBox(
+            width: 15,
+          ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  "동영상주인",
+                  controller.youtuberName,
                   style: TextStyle(fontSize: 18),
                 ),
                 Text(
-                  "구독자 10000",
+                  controller.youtuberSubscribe,
                   style: TextStyle(
                       fontSize: 14, color: Colors.black.withOpacity(0.6)),
                 )
@@ -144,10 +143,38 @@ class YoutubeDetail extends StatelessWidget {
       appBar: AppBar(),
       body: Column(
         children: [
-          Container(
-            height: 250,
-            color: Colors.grey.withOpacity(0.5),
+          YoutubePlayer(
+        controller: controller.playerController,
+        showVideoProgressIndicator: true,
+        progressIndicatorColor: Colors.blueAccent,
+        topActions: <Widget>[
+          const SizedBox(width: 8.0),
+          Expanded(
+            child: Text(
+              controller.playerController.metadata.title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18.0,
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
           ),
+          IconButton(
+            icon: const Icon(
+              Icons.settings,
+              color: Colors.white,
+              size: 25.0,
+            ),
+            onPressed: () {
+            },
+          ),
+        ],
+        onReady: () {
+        },
+        onEnded: (data) {
+        },
+      ),
           Expanded(
             child: _description(),
           )

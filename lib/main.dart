@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_youtube_d5354/src/binding/init_binding.dart';
 import 'package:flutter_youtube_d5354/src/app.dart';
 import 'package:flutter_youtube_d5354/src/components/youtube_detail.dart';
+import 'package:flutter_youtube_d5354/src/controller/youtube_detail_controller.dart';
+import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -34,7 +36,13 @@ class MyApp extends StatelessWidget {
       initialBinding: InitBinding(),
       getPages: [
         GetPage(name: "/", page: () => App()),
-        GetPage(name: "/detail/:videoId", page: () => YoutubeDetail()),
+        GetPage(
+            name: "/detail/:videoId",
+            page: () => YoutubeDetail(),
+            binding: BindingsBuilder(
+              () => Get.lazyPut<YoutubeDetailController>(
+                  () => YoutubeDetailController()),
+            )),
       ],
     );
   }
