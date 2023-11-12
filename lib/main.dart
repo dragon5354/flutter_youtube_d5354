@@ -7,6 +7,8 @@ import 'package:flutter_youtube_d5354/src/binding/init_binding.dart';
 import 'package:flutter_youtube_d5354/src/app.dart';
 import 'package:flutter_youtube_d5354/src/components/youtube_detail.dart';
 import 'package:flutter_youtube_d5354/src/controller/youtube_detail_controller.dart';
+import 'package:flutter_youtube_d5354/src/controller/youtube_search_controller.dart';
+import 'package:flutter_youtube_d5354/src/pages/youtube_search.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -42,6 +44,13 @@ class MyApp extends StatelessWidget {
             binding: BindingsBuilder(
               () => Get.lazyPut<YoutubeDetailController>(
                   () => YoutubeDetailController()),
+            )),
+        GetPage(
+            name: "/search",
+            page: () => YoutubeSearch(),
+            binding: BindingsBuilder(
+              () => Get.lazyPut<YoutubeSearchController>(
+                  () => YoutubeSearchController()),
             )),
       ],
     );
